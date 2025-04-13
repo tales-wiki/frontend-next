@@ -1,8 +1,10 @@
 import { ArticlesByCategory } from "@/types/ArticlesByCategory";
-
+import { sleep } from "../utils/Sleep";
 export async function fetchArticlesByCategory(
   category: string
 ): Promise<ArticlesByCategory> {
+  await sleep(3000);
+
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/articles/categories/${category}`,
     {
