@@ -1,15 +1,22 @@
+"use client";
+
+import { Button } from "@/components/ui/button";
 import { ArticlesByCategory } from "@/types/ArticlesByCategory";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 interface ConsonantGridProps {
   articlesByCategory: ArticlesByCategory;
   title: string;
+  category: string;
 }
 
 export default function ConsonantGrid({
   articlesByCategory,
   title,
+  category,
 }: ConsonantGridProps) {
+  const router = useRouter();
+
   const koreanConsonants = [
     "ㄱ",
     "ㄴ",
@@ -60,7 +67,20 @@ export default function ConsonantGrid({
 
   return (
     <div>
-      <h1 className="text-2xl font-bold mb-5">{title}</h1>
+      <div className="flex items-center justify-between mb-8">
+        <div className="flex items-center">
+          <h1 className="text-2xl font-semibold text-gray-900">{title}</h1>
+        </div>
+        <Button
+          size="sm"
+          className="bg-slate-600 hover:bg-slate-700 text-white"
+          onClick={() =>
+            router.push(category === "런너" ? "/runner/write" : "/guild/write")
+          }
+        >
+          작성하기
+        </Button>
+      </div>
       <div className="flex flex-col gap-5">
         <div className="grid lg:grid-cols-6 grid-cols-3 gap-1">
           {koreanConsonants.map((consonant, index) => {
@@ -68,19 +88,21 @@ export default function ConsonantGrid({
               (item) => item.initial === consonant
             );
             return (
-              <div key={index} className="flex flex-col border">
+              <div key={index} className="flex flex-col">
                 <span className="text-sm text-white text-center bg-slate-600">
                   {consonant}
                 </span>
-                <div className="p-1 flex flex-col lg:gap-1 gap-2">
+                <div className="p-1 flex flex-col lg:gap-1 gap-2 border border-slate-300">
                   {articles?.payload.map((article) => (
-                    <Link
+                    <button
                       key={article.articleVersionId}
-                      href={`/article/${article.articleVersionId}`}
-                      className="text-xs text-gray-800 hover:text-blue-600"
+                      onClick={() =>
+                        router.push(`/article/${article.articleVersionId}`)
+                      }
+                      className="text-xs text-gray-800 hover:text-blue-600 text-left"
                     >
                       {article.title}
-                    </Link>
+                    </button>
                   ))}
                 </div>
               </div>
@@ -93,19 +115,21 @@ export default function ConsonantGrid({
               (item) => item.initial === consonant
             );
             return (
-              <div key={index} className="flex flex-col border">
+              <div key={index} className="flex flex-col">
                 <span className="text-sm text-white text-center bg-slate-600">
                   {consonant}
                 </span>
-                <div className="p-1 flex flex-col lg:gap-1 gap-2">
+                <div className="p-1 flex flex-col lg:gap-1 gap-2 border border-slate-300">
                   {articles?.payload.map((article) => (
-                    <Link
+                    <button
                       key={article.articleVersionId}
-                      href={`/article/${article.articleVersionId}`}
-                      className="text-xs text-gray-800 hover:text-blue-600"
+                      onClick={() =>
+                        router.push(`/article/${article.articleVersionId}`)
+                      }
+                      className="text-xs text-gray-800 hover:text-blue-600 text-left"
                     >
                       {article.title}
-                    </Link>
+                    </button>
                   ))}
                 </div>
               </div>
@@ -118,19 +142,21 @@ export default function ConsonantGrid({
               (item) => item.initial === consonant
             );
             return (
-              <div key={index} className="flex flex-col border">
+              <div key={index} className="flex flex-col">
                 <span className="text-sm text-white text-center bg-slate-600">
                   {consonant}
                 </span>
-                <div className="p-1 flex flex-col lg:gap-1 gap-2">
+                <div className="p-1 flex flex-col lg:gap-1 gap-2 border border-slate-300">
                   {articles?.payload.map((article) => (
-                    <Link
+                    <button
                       key={article.articleVersionId}
-                      href={`/article/${article.articleVersionId}`}
-                      className="text-xs text-gray-800 hover:text-blue-600"
+                      onClick={() =>
+                        router.push(`/article/${article.articleVersionId}`)
+                      }
+                      className="text-xs text-gray-800 hover:text-blue-600 text-left"
                     >
                       {article.title}
-                    </Link>
+                    </button>
                   ))}
                 </div>
               </div>

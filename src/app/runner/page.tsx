@@ -8,6 +8,10 @@ export default async function Runner() {
   );
 
   return (
-    <ConsonantGrid articlesByCategory={articlesByCategory} title="런너 사전" />
+    <ConsonantGrid
+      articlesByCategory={articlesByCategory}
+      title="런너 사전"
+      category="런너"
+    />
   );
 }

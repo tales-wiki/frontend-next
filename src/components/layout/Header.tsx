@@ -134,15 +134,24 @@ const Header = () => {
 
           {/* 데스크톱 메뉴 */}
           <nav className="hidden lg:flex items-center space-x-6">
-            <Link href="/runner" className="text-gray-300 hover:text-white">
+            <button
+              onClick={() => router.push("/runner")}
+              className="text-gray-300 hover:text-white"
+            >
               런너사전
-            </Link>
-            <Link href="/guild" className="text-gray-300 hover:text-white">
+            </button>
+            <button
+              onClick={() => router.push("/guild")}
+              className="text-gray-300 hover:text-white"
+            >
               길드사전
-            </Link>
-            <Link href="/login" className="text-gray-300 hover:text-white">
+            </button>
+            <button
+              onClick={() => router.push("/login")}
+              className="text-gray-300 hover:text-white"
+            >
               로그인
-            </Link>
+            </button>
           </nav>
         </div>
 
@@ -209,21 +218,24 @@ const Header = () => {
               )}
             </div>
             <nav className="flex flex-col items-center space-y-2">
-              <Link href="/runner" className="w-full">
-                <div className="w-full py-2 text-center text-gray-300 hover:text-white hover:bg-slate-700 rounded-lg text-base transition-colors">
-                  런너사전
-                </div>
-              </Link>
-              <Link href="/guild" className="w-full">
-                <div className="w-full py-2 text-center text-gray-300 hover:text-white hover:bg-slate-700 rounded-lg text-base transition-colors">
-                  길드사전
-                </div>
-              </Link>
-              <Link href="/login" className="w-full">
-                <div className="w-full py-2 text-center text-gray-300 hover:text-white hover:bg-slate-700 rounded-lg text-base transition-colors">
-                  로그인
-                </div>
-              </Link>
+              <button
+                onClick={() => router.push("/runner")}
+                className="w-full py-2 text-center text-gray-300 hover:text-white hover:bg-slate-700 rounded-lg text-base transition-colors"
+              >
+                런너사전
+              </button>
+              <button
+                onClick={() => router.push("/guild")}
+                className="w-full py-2 text-center text-gray-300 hover:text-white hover:bg-slate-700 rounded-lg text-base transition-colors"
+              >
+                길드사전
+              </button>
+              <button
+                onClick={() => router.push("/login")}
+                className="w-full py-2 text-center text-gray-300 hover:text-white hover:bg-slate-700 rounded-lg text-base transition-colors"
+              >
+                로그인
+              </button>
             </nav>
           </div>
         </div>
