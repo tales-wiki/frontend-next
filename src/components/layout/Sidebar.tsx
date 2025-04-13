@@ -1,6 +1,7 @@
 import { fetchLastUpdatedArticles } from "@/lib/api/fetchLastUpdatedArticles";
 import { formatDate } from "@/lib/utils/DateFormatter";
 import { LastUpdatedArticle } from "@/types/LastUpdatedArticle";
+import Link from "next/link";
 import { Suspense } from "react";
 import { FaExclamationCircle } from "react-icons/fa";
 
@@ -37,7 +38,7 @@ const ArticleList = async () => {
             key={article.articleVersionId}
             className="border-b border-gray-200 pb-3 last:border-b-0 last:pb-0"
           >
-            <a
+            <Link
               href={`/articles/${article.articleVersionId}`}
               className="hover:text-blue-500 block"
             >
@@ -54,7 +55,7 @@ const ArticleList = async () => {
                 </span>
                 <span>{formatDate(article.updatedAt)}</span>
               </div>
-            </a>
+            </Link>
           </li>
         ))}
       </ul>
