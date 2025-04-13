@@ -1,3 +1,4 @@
+import { Badge } from "@/components/ui/badge";
 import { fetchLastUpdatedArticles } from "@/lib/api/fetchLastUpdatedArticles";
 import { formatDate } from "@/lib/utils/DateFormatter";
 import { LastUpdatedArticle } from "@/types/LastUpdatedArticle";
@@ -44,15 +45,18 @@ const ArticleList = async () => {
             >
               <div className="text-sm mb-1.5">{article.title}</div>
               <div className="text-xs text-gray-500 flex items-center justify-between">
-                <span
-                  className={`px-1.5 py-0.5 rounded-full ${
+                <Badge
+                  variant={
+                    article.category === "런너" ? "secondary" : "outline"
+                  }
+                  className={`text-xs ${
                     article.category === "런너"
-                      ? "bg-blue-100 text-blue-800"
-                      : "bg-green-100 text-green-800"
-                  } text-xs flex items-center`}
+                      ? "bg-blue-50 text-blue-700 hover:bg-blue-50"
+                      : "bg-green-50 text-green-700 hover:bg-green-50"
+                  }`}
                 >
                   {article.category}
-                </span>
+                </Badge>
                 <span>{formatDate(article.updatedAt)}</span>
               </div>
             </Link>
