@@ -12,7 +12,7 @@ const Layout = ({ children }: LayoutProps) => {
     <div className="min-h-screen flex flex-col">
       <Header />
       <main className="flex-1 grid grid-cols-1 lg:grid-cols-[1fr_250px] gap-4 px-0 lg:px-4 py-4">
-        <div className="bg-white p-4 border border-slate-400 lg:rounded-lg">
+        <div className="bg-white p-8 border border-slate-400 lg:rounded-lg h-fit">
           {children}
         </div>
         <Sidebar />
