@@ -1,4 +1,8 @@
-export async function fetchLastUpdatedArticles() {
+import { LastUpdatedArticle } from "@/types/LastUpdatedArticle";
+
+export async function fetchLastUpdatedArticles(): Promise<
+  LastUpdatedArticle[]
+> {
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/articles/latest-update`,
     {

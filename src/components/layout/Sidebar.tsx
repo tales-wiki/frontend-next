@@ -8,7 +8,7 @@ import { FaExclamationCircle } from "react-icons/fa";
 
 const ArticleList = async () => {
   try {
-    const articles = await fetchLastUpdatedArticles();
+    const articles = (await fetchLastUpdatedArticles()) as LastUpdatedArticle[];
 
     if (articles.length === 0) {
       return (
@@ -22,7 +22,7 @@ const ArticleList = async () => {
 
     return (
       <ul className="space-y-3">
-        {articles.map((article: LastUpdatedArticle) => (
+        {articles.map((article) => (
           <li
             key={article.articleVersionId}
             className="border-b border-gray-200 pb-3 last:border-b-0 last:pb-0"
@@ -56,7 +56,10 @@ const ArticleList = async () => {
     console.error("최근 편집된 글을 불러오는데 실패했습니다:", error);
 
     return (
-      <Alert variant="destructive" className="border-1 border-red-500">
+      <Alert
+        variant="destructive"
+        className="border-1 border-red-500 bg-red-50"
+      >
         <FaExclamationCircle className="h-4 w-4" />
         <AlertDescription>
           최근 편집된 글 목록을 불러오는데 실패했습니다.
@@ -66,7 +69,7 @@ const ArticleList = async () => {
   }
 };
 
-const Sidebar = () => {
+export default function Sidebar() {
   return (
     <aside className="bg-white p-4 border border-slate-400 lg:rounded-lg h-fit">
       <h2 className="text-base font-semibold mb-3 text-center">최근 편집</h2>
@@ -75,6 +78,4 @@ const Sidebar = () => {
       </nav>
     </aside>
   );
-};
-
-export default Sidebar;
+}
