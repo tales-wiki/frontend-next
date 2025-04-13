@@ -66,7 +66,7 @@ export default function ConsonantGrid({
     <div>
       <h1 className="text-2xl font-bold mb-5">{title}</h1>
       {errorMessage ? (
-        <Alert variant="destructive" className="mb-5 border-red-500">
+        <Alert variant="destructive" className="border-red-500">
           <FaExclamationCircle className="h-4 w-4" />
           <AlertDescription>{errorMessage}</AlertDescription>
         </Alert>
