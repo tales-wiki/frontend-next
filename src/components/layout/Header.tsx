@@ -9,7 +9,7 @@ const Header = () => {
 
   return (
     <header className="bg-slate-800 shadow-md">
-      <div className="container mx-auto px-4 py-3">
+      <div className="container mx-auto px-4 py-3 max-w-7xl">
         <div className="flex items-center justify-between">
           {/* 타이틀 */}
           <Link href="/" className="text-xl lg:text-2xl font-bold text-white">
