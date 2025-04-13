@@ -1,6 +1,6 @@
 const Sidebar = () => {
   return (
-    <aside className="bg-white p-4 rounded-lg border border-gray-200 shadow-sm">
+    <aside className="bg-white p-4 border border-slate-400 lg:rounded-lg">
       <h2 className="text-lg font-semibold mb-4">사이드바</h2>
       <nav>
         <ul className="space-y-2">
