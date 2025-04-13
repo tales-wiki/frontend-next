@@ -8,6 +8,10 @@ export default async function Guild() {
   );
 
   return (
-    <ConsonantGrid articlesByCategory={articlesByCategory} title="길드 사전" />
+    <ConsonantGrid
+      articlesByCategory={articlesByCategory}
+      title="길드 사전"
+      category="길드"
+    />
   );
 }

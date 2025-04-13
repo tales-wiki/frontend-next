@@ -58,7 +58,7 @@ const ArticleList = async () => {
     return (
       <Alert
         variant="destructive"
-        className="border-1 border-red-500 bg-red-50"
+        className="border-1 border-red-500 bg-red-50 text-red-500"
       >
         <FaExclamationCircle className="h-4 w-4" />
         <AlertDescription>
