@@ -1,12 +1,8 @@
 "use client";
 
-import {
-  Bars3Icon,
-  MagnifyingGlassIcon,
-  XMarkIcon,
-} from "@heroicons/react/24/outline";
 import Link from "next/link";
 import { useState } from "react";
+import { HiOutlineMenu, HiOutlineSearch, HiOutlineX } from "react-icons/hi";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -24,7 +20,7 @@ const Header = () => {
           <div className="hidden lg:flex flex-1 max-w-xl mx-4">
             <div className="relative w-full">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <MagnifyingGlassIcon className="h-5 w-5 text-gray-400" />
+                <HiOutlineSearch className="h-5 w-5 text-gray-400" />
               </div>
               <input
                 type="text"
@@ -40,12 +36,12 @@ const Header = () => {
             onClick={() => setIsMenuOpen(!isMenuOpen)}
           >
             <div className="relative w-6 h-6">
-              <Bars3Icon
+              <HiOutlineMenu
                 className={`absolute h-6 w-6 transition-all duration-300 ${
                   isMenuOpen ? "opacity-0 rotate-90" : "opacity-100 rotate-0"
                 }`}
               />
-              <XMarkIcon
+              <HiOutlineX
                 className={`absolute h-6 w-6 transition-all duration-300 ${
                   isMenuOpen ? "opacity-100 rotate-0" : "opacity-0 -rotate-90"
                 }`}
@@ -76,7 +72,7 @@ const Header = () => {
           <div className="mt-4">
             <div className="relative mb-4">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <MagnifyingGlassIcon className="h-5 w-5 text-gray-400" />
+                <HiOutlineSearch className="h-5 w-5 text-gray-400" />
               </div>
               <input
                 type="text"
