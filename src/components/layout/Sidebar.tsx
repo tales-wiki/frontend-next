@@ -1,4 +1,5 @@
 import { Badge } from "@/components/ui/badge";
+import { Skeleton } from "@/components/ui/skeleton";
 import { fetchLastUpdatedArticles } from "@/lib/api/fetchLastUpdatedArticles";
 import { formatDate } from "@/lib/utils/DateFormatter";
 import { LastUpdatedArticle } from "@/types/LastUpdatedArticle";
@@ -8,11 +9,11 @@ import { FaExclamationCircle } from "react-icons/fa";
 
 const SkeletonItem = () => (
   <li className="border-b border-gray-200 pb-3 last:border-b-0 last:pb-0">
-    <div className="animate-pulse">
-      <div className="h-4 bg-gray-200 rounded w-full mb-1.5"></div>
+    <div className="space-y-2">
+      <Skeleton className="h-4 w-full" />
       <div className="flex items-center justify-between">
-        <div className="h-4 bg-gray-200 rounded w-10"></div>
-        <div className="h-4 bg-gray-200 rounded w-20"></div>
+        <Skeleton className="h-4 w-10" />
+        <Skeleton className="h-4 w-20" />
       </div>
     </div>
   </li>
@@ -49,10 +50,10 @@ const ArticleList = async () => {
                   variant={
                     article.category === "런너" ? "secondary" : "outline"
                   }
-                  className={`text-xs ${
+                  className={`text-xs border-gray-200 ${
                     article.category === "런너"
-                      ? "bg-blue-50 text-blue-700 hover:bg-blue-50"
-                      : "bg-green-50 text-green-700 hover:bg-green-50"
+                      ? "bg-blue-50 text-blue-700"
+                      : "bg-green-50 text-green-700 "
                   }`}
                 >
                   {article.category}
