@@ -1,4 +1,6 @@
-export async function searchArticles(title: string) {
+import { SearchArticle } from "@/types/SearchArticle";
+
+export async function searchArticles(title: string): Promise<SearchArticle[]> {
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/articles/search?title=${title}`,
     {

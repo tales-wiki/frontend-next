@@ -6,7 +6,7 @@ export async function fetchArticlesByCategory(
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/articles/categories/${category}`,
     {
-      next: { revalidate: 60 },
+      cache: "no-store",
     }
   );
 

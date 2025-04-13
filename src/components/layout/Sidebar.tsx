@@ -8,7 +8,7 @@ import { FaExclamationCircle } from "react-icons/fa";
 
 const ArticleList = async () => {
   try {
-    const articles = (await fetchLastUpdatedArticles()) as LastUpdatedArticle[];
+    const articles: LastUpdatedArticle[] = await fetchLastUpdatedArticles();
 
     if (articles.length === 0) {
       return (

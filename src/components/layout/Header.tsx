@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { searchArticles } from "@/lib/api/searchArticles";
 import { SearchArticle } from "@/types/SearchArticle";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useCallback, useState } from "react";
 import { HiOutlineMenu, HiOutlineX } from "react-icons/hi";
 
@@ -13,6 +14,7 @@ const Header = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState<SearchArticle[]>([]);
   const [isSearchFocused, setIsSearchFocused] = useState(false);
+  const router = useRouter();
 
   const handleSearch = useCallback(async (query: string) => {
     if (!query.trim()) {
@@ -20,7 +22,7 @@ const Header = () => {
       return;
     }
     try {
-      const results = await searchArticles(query);
+      const results: SearchArticle[] = await searchArticles(query);
       setSearchResults(results);
     } catch (error) {
       console.error("검색 오류:", error);
@@ -78,10 +80,12 @@ const Header = () => {
               {isSearchFocused && searchResults.length > 0 && (
                 <div className="absolute top-full left-0 right-0 mt-1 bg-slate-700 rounded-lg shadow-lg max-h-32 lg:max-h-96 overflow-y-auto z-50">
                   {searchResults.map((result, index) => (
-                    <Link
+                    <div
                       key={result.articleVersionId}
-                      href={`/article/${result.articleVersionId}`}
-                      className={`block px-4 py-2 text-white hover:bg-slate-600 transition-colors ${
+                      onClick={() =>
+                        router.push(`/article/${result.articleVersionId}`)
+                      }
+                      className={`block px-4 py-2 text-white hover:bg-slate-600 transition-colors cursor-pointer ${
                         index !== searchResults.length - 1
                           ? "border-b border-slate-600"
                           : ""
@@ -102,7 +106,7 @@ const Header = () => {
                           {result.category}
                         </Badge>
                       </div>
-                    </Link>
+                    </div>
                   ))}
                 </div>
               )}
@@ -173,10 +177,12 @@ const Header = () => {
               {isSearchFocused && searchResults.length > 0 && (
                 <div className="absolute top-full left-0 right-0 mt-1 bg-slate-700 rounded-lg shadow-lg lg:max-h-92 max-h-36 overflow-y-auto z-50">
                   {searchResults.map((result, index) => (
-                    <Link
+                    <div
                       key={result.articleVersionId}
-                      href={`/article/${result.articleVersionId}`}
-                      className={`block px-4 py-2 text-white hover:bg-slate-600 transition-colors ${
+                      onClick={() =>
+                        router.push(`/article/${result.articleVersionId}`)
+                      }
+                      className={`block px-4 py-2 text-white hover:bg-slate-600 transition-colors cursor-pointer ${
                         index !== searchResults.length - 1
                           ? "border-b border-slate-600"
                           : ""
@@ -197,7 +203,7 @@ const Header = () => {
                           {result.category}
                         </Badge>
                       </div>
-                    </Link>
+                    </div>
                   ))}
                 </div>
               )}
