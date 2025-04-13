@@ -1,4 +1,8 @@
-export default function Runner() {
+import { fetchArticlesByCategory } from "@/lib/api/fetchArticlesByCategory";
+import { ArticlesByCategory } from "@/types/ArticlesByCategory";
+import Link from "next/link";
+
+export default async function Runner() {
   const koreanConsonants = [
     "ㄱ",
     "ㄴ",
@@ -47,39 +51,91 @@ export default function Runner() {
 
   const numberConsonants = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
 
+  let articlesByCategory: ArticlesByCategory = [];
+  try {
+    articlesByCategory = await fetchArticlesByCategory("runner");
+  } catch (error) {
+    console.error("Error fetching articles:", error);
+  }
+
   return (
     <div>
       <h1 className="text-2xl font-bold mb-5">런너 사전</h1>
       <div className="flex flex-col gap-5">
-        <div className="grid lg:grid-cols-6 grid-cols-3 gap-0.5">
-          {koreanConsonants.map((consonant, index) => (
-            <div
-              key={index}
-              className="flex items-center justify-center p-0.5 border bg-slate-600"
-            >
-              <span className="text-sm text-white">{consonant}</span>
-            </div>
-          ))}
+        <div className="grid lg:grid-cols-6 grid-cols-3 gap-1">
+          {koreanConsonants.map((consonant, index) => {
+            const articles = articlesByCategory.find(
+              (item) => item.initial === consonant
+            );
+            return (
+              <div key={index} className="flex flex-col border">
+                <span className="text-sm text-white text-center bg-slate-600">
+                  {consonant}
+                </span>
+                <div className="p-1 flex flex-col lg:gap-1 gap-2">
+                  {articles?.payload.map((article) => (
+                    <Link
+                      key={article.articleVersionId}
+                      href={`/article/${article.articleVersionId}`}
+                      className="text-xs text-gray-800 hover:text-blue-600"
+                    >
+                      {article.title}
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            );
+          })}
         </div>
-        <div className="grid lg:grid-cols-6 grid-cols-3 gap-0.5">
-          {englishConsonants.map((consonant, index) => (
-            <div
-              key={index}
-              className="flex items-center justify-center p-0.5 border bg-slate-600"
-            >
-              <span className="text-sm text-white">{consonant}</span>
-            </div>
-          ))}
+        <div className="grid lg:grid-cols-6 grid-cols-3 gap-1">
+          {englishConsonants.map((consonant, index) => {
+            const articles = articlesByCategory.find(
+              (item) => item.initial === consonant
+            );
+            return (
+              <div key={index} className="flex flex-col border">
+                <span className="text-sm text-white text-center bg-slate-600">
+                  {consonant}
+                </span>
+                <div className="p-1 flex flex-col lg:gap-1 gap-2">
+                  {articles?.payload.map((article) => (
+                    <Link
+                      key={article.articleVersionId}
+                      href={`/article/${article.articleVersionId}`}
+                      className="text-xs text-gray-800 hover:text-blue-600"
+                    >
+                      {article.title}
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            );
+          })}
         </div>
-        <div className="grid lg:grid-cols-6 grid-cols-3 gap-0.5">
-          {numberConsonants.map((consonant, index) => (
-            <div
-              key={index}
-              className="flex items-center justify-center p-0.5 border bg-slate-600"
-            >
-              <span className="text-sm text-white">{consonant}</span>
-            </div>
-          ))}
+        <div className="grid lg:grid-cols-6 grid-cols-3 gap-1">
+          {numberConsonants.map((consonant, index) => {
+            const articles = articlesByCategory.find(
+              (item) => item.initial === consonant
+            );
+            return (
+              <div key={index} className="flex flex-col border">
+                <span className="text-sm text-white text-center bg-slate-600">
+                  {consonant}
+                </span>
+                <div className="p-1 flex flex-col lg:gap-1 gap-2">
+                  {articles?.payload.map((article) => (
+                    <Link
+                      key={article.articleVersionId}
+                      href={`/article/${article.articleVersionId}`}
+                      className="text-xs text-gray-800 hover:text-blue-600"
+                    >
+                      {article.title}
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            );
+          })}
         </div>
       </div>
     </div>

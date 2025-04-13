@@ -1,6 +1,6 @@
 export default function Home() {
   return (
-    <main className="container mx-auto">
+    <main className="container max-w-full">
       <div className="grid gap-6">
         <div className="bg-blue-50 rounded-lg p-5 border-l-4 border-blue-500">
           <h3 className="text-lg lg:text-xl font-semibold mb-3 text-blue-700">
@@ -11,7 +11,7 @@ export default function Home() {
           </p>
         </div>
 
-        <div className="bg-emerald-50 rounded-lg p-5 border-l-4 border-emerald-500">
+        <div className="bg-emerald-50 rounded-lg p-5 border-l-4 border-emerald-500 w-full">
           <h3 className="text-lg lg:text-xl font-semibold mb-3 text-emerald-700">
             위키 사용 방법
           </h3>
