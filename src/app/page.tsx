@@ -1,43 +1,66 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-
 export default function Home() {
   return (
     <main className="container mx-auto">
-      <h1 className="text-4xl font-bold mb-8">
-        테일즈위키에 오신 것을 환영합니다!
-      </h1>
+      <div className="grid gap-6">
+        <div className="bg-blue-50 rounded-lg p-5 border-l-4 border-blue-500">
+          <h3 className="text-lg lg:text-xl font-semibold mb-3 text-blue-700">
+            환영합니다
+          </h3>
+          <p className="text-sm lg:text-base text-gray-600">
+            테일즈위키는 익명성과 공익성을 우선시 하는 사이트입니다.
+          </p>
+        </div>
 
-      <Card className="mb-8">
-        <CardHeader>
-          <CardTitle>테일즈위키란?</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <ul className="list-disc pl-6 space-y-2">
-            <li>익명성과 공익성을 목적으로 만들어진 사이트입니다.</li>
-            <li>누구나 쉽게 사전을 작성하고 편집할 수 있습니다.</li>
+        <div className="bg-emerald-50 rounded-lg p-5 border-l-4 border-emerald-500">
+          <h3 className="text-lg lg:text-xl font-semibold mb-3 text-emerald-700">
+            위키 사용 방법
+          </h3>
+          <ul className="text-sm lg:text-base text-gray-600 space-y-2">
+            <li className="flex items-start">
+              <span className="text-emerald-500 mr-2">•</span>
+              <span>
+                상단 메뉴를 통해 원하는 카테고리로 이동할 수 있습니다.
+              </span>
+            </li>
+            <li className="flex items-start">
+              <span className="text-emerald-500 mr-2">•</span>
+              <span>검색 기능을 활용하여 필요한 정보를 빠르게 찾아보세요.</span>
+            </li>
+            <li className="flex items-start">
+              <span className="text-emerald-500 mr-2">•</span>
+              <span>누구나 게시글 작성과 편집에 참여할 수 있습니다.</span>
+            </li>
+            <li className="flex items-start">
+              <span className="text-emerald-500 mr-2">•</span>
+              <span>다른 사용자들의 기여를 존중하고 함께 발전시켜 나가요.</span>
+            </li>
           </ul>
-        </CardContent>
-      </Card>
+        </div>
 
-      <Card>
-        <CardHeader>
-          <CardTitle>주의사항</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <ul className="list-disc pl-6 space-y-2">
-            <li>
-              부적절한 내용이나 욕설, 비방 등의 게시물은 삭제될 수 있습니다.
+        <div className="bg-rose-50 rounded-lg p-5 border-l-4 border-rose-500">
+          <h3 className="text-lg lg:text-xl font-semibold mb-3 text-rose-700">
+            주의사항
+          </h3>
+          <ul className="text-sm lg:text-base text-gray-600 space-y-2">
+            <li className="flex items-start">
+              <span className="text-rose-500 mr-2">•</span>
+              <span>검증되지 않은 정보는 출처와 함께 작성해 주세요.</span>
             </li>
-            <li>타인의 신상 정보나 개인정보를 공개하는 것은 금지됩니다.</li>
-            <li>
-              다른 사용자들을 존중하고 배려하는 마음으로 글을 작성해주세요.
+            <li className="flex items-start">
+              <span className="text-rose-500 mr-2">•</span>
+              <span>타인을 비방하거나 불쾌감을 주는 내용은 삼가해 주세요.</span>
             </li>
-            <li>
-              허위 정보나 오해의 소지가 있는 내용은 자제해주시기 바랍니다.
+            <li className="flex items-start">
+              <span className="text-rose-500 mr-2">•</span>
+              <span>저작권을 침해하는 자료는 업로드하지 말아주세요.</span>
+            </li>
+            <li className="flex items-start">
+              <span className="text-rose-500 mr-2">•</span>
+              <span>편집 전 미리보기를 통해 내용을 확인해 주세요.</span>
             </li>
           </ul>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
     </main>
   );
 }
