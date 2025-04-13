@@ -76,7 +76,7 @@ const Header = () => {
                 </button>
               )}
               {isSearchFocused && searchResults.length > 0 && (
-                <div className="absolute top-full left-0 right-0 mt-1 bg-slate-700 rounded-lg shadow-lg max-h-96 lg:max-h-96 max-h-32 overflow-y-auto z-50">
+                <div className="absolute top-full left-0 right-0 mt-1 bg-slate-700 rounded-lg shadow-lg max-h-32 lg:max-h-96 overflow-y-auto z-50">
                   {searchResults.map((result, index) => (
                     <Link
                       key={result.articleVersionId}
@@ -88,7 +88,7 @@ const Header = () => {
                       }`}
                     >
                       <div className="flex items-center justify-between">
-                        <span>{result.title}</span>
+                        <span className="text-sm">{result.title}</span>
                         <Badge
                           variant={
                             result.category === "런너" ? "secondary" : "outline"
@@ -183,7 +183,7 @@ const Header = () => {
                       }`}
                     >
                       <div className="flex items-center justify-between">
-                        <span>{result.title}</span>
+                        <span className="text-sm">{result.title}</span>
                         <Badge
                           variant={
                             result.category === "런너" ? "secondary" : "outline"
