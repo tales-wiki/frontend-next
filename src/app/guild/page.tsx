@@ -1,4 +1,4 @@
-import ConsonantGrid from "@/components/ConsonantGrid";
+import ConsonantGrid from "@/components/article/ConsonantGrid";
 import { fetchArticlesByCategory } from "@/lib/api/fetchArticlesByCategory";
 import { ArticlesByCategory } from "@/types/ArticlesByCategory";
 
