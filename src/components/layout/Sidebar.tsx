@@ -1,23 +1,10 @@
+import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
-import { Skeleton } from "@/components/ui/skeleton";
 import { fetchLastUpdatedArticles } from "@/lib/api/fetchLastUpdatedArticles";
 import { formatDate } from "@/lib/utils/DateFormatter";
 import { LastUpdatedArticle } from "@/types/LastUpdatedArticle";
 import Link from "next/link";
-import { Suspense } from "react";
 import { FaExclamationCircle } from "react-icons/fa";
-
-const SkeletonItem = () => (
-  <li className="border-b border-gray-200 pb-3 last:border-b-0 last:pb-0">
-    <div className="space-y-2">
-      <Skeleton className="h-4 w-full" />
-      <div className="flex items-center justify-between">
-        <Skeleton className="h-4 w-10" />
-        <Skeleton className="h-4 w-20" />
-      </div>
-    </div>
-  </li>
-);
 
 const ArticleList = async () => {
   try {
@@ -67,13 +54,14 @@ const ArticleList = async () => {
     );
   } catch (error) {
     console.error("최근 편집된 글을 불러오는데 실패했습니다:", error);
+
     return (
-      <div className="flex flex-col items-center justify-center gap-2 p-3 bg-red-50 rounded-lg">
-        <FaExclamationCircle className="text-red-500 text-xl" />
-        <span className="text-sm text-red-600 text-center">
+      <Alert variant="destructive" className="border-1 border-red-500">
+        <FaExclamationCircle className="h-4 w-4" />
+        <AlertDescription>
           최근 편집된 글 목록을 불러오는데 실패했습니다.
-        </span>
-      </div>
+        </AlertDescription>
+      </Alert>
     );
   }
 };
@@ -83,19 +71,7 @@ const Sidebar = () => {
     <aside className="bg-white p-4 border border-slate-400 lg:rounded-lg h-fit">
       <h2 className="text-base font-semibold mb-3 text-center">최근 편집</h2>
       <nav>
-        <Suspense
-          fallback={
-            <ul className="space-y-3">
-              <SkeletonItem />
-              <SkeletonItem />
-              <SkeletonItem />
-              <SkeletonItem />
-              <SkeletonItem />
-            </ul>
-          }
-        >
-          <ArticleList />
-        </Suspense>
+        <ArticleList />
       </nav>
     </aside>
   );
