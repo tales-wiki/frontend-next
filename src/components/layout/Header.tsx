@@ -1,12 +1,47 @@
 "use client";
 
+import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
+import { searchArticles } from "@/lib/api/searchArticles";
+import { SearchArticle } from "@/types/SearchArticle";
 import Link from "next/link";
-import { useState } from "react";
-import { HiOutlineMenu, HiOutlineSearch, HiOutlineX } from "react-icons/hi";
+import { useCallback, useState } from "react";
+import { HiOutlineMenu, HiOutlineX } from "react-icons/hi";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [searchResults, setSearchResults] = useState<SearchArticle[]>([]);
+  const [isSearchFocused, setIsSearchFocused] = useState(false);
+
+  const handleSearch = useCallback(async (query: string) => {
+    if (!query.trim()) {
+      setSearchResults([]);
+      return;
+    }
+    try {
+      const results = await searchArticles(query);
+      setSearchResults(results);
+    } catch (error) {
+      console.error("검색 오류:", error);
+    }
+  }, []);
+
+  const debouncedSearch = useCallback(
+    (query: string) => {
+      const timer = setTimeout(() => {
+        handleSearch(query);
+      }, 500);
+      return () => clearTimeout(timer);
+    },
+    [handleSearch]
+  );
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setSearchQuery(value);
+    debouncedSearch(value);
+  };
 
   return (
     <header className="bg-slate-800 shadow-md">
@@ -20,14 +55,57 @@ const Header = () => {
           {/* 검색바 - 모바일/태블릿에서는 숨김 */}
           <div className="hidden lg:flex flex-1 max-w-xl mx-4">
             <div className="relative w-full">
-              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <HiOutlineSearch className="h-5 w-5 text-gray-400" />
-              </div>
               <Input
                 type="text"
                 placeholder="검색어를 입력해주세요..."
-                className="w-full pl-10 bg-slate-700 border-slate-600 text-white placeholder-gray-400 focus:ring-0"
+                className="w-full pr-10 bg-slate-700 border-slate-600 text-white placeholder-gray-400 focus:ring-0"
+                value={searchQuery}
+                onChange={handleInputChange}
+                onFocus={() => setIsSearchFocused(true)}
+                onBlur={() => setTimeout(() => setIsSearchFocused(false), 200)}
               />
+              {searchQuery && (
+                <button
+                  className="absolute inset-y-0 right-0 pr-3 flex items-center"
+                  onClick={() => {
+                    setSearchQuery("");
+                    setSearchResults([]);
+                  }}
+                >
+                  <HiOutlineX className="h-5 w-5 text-gray-400 hover:text-white" />
+                </button>
+              )}
+              {isSearchFocused && searchResults.length > 0 && (
+                <div className="absolute top-full left-0 right-0 mt-1 bg-slate-700 rounded-lg shadow-lg max-h-96 lg:max-h-96 max-h-32 overflow-y-auto z-50">
+                  {searchResults.map((result, index) => (
+                    <Link
+                      key={result.articleVersionId}
+                      href={`/article/${result.articleVersionId}`}
+                      className={`block px-4 py-2 text-white hover:bg-slate-600 transition-colors ${
+                        index !== searchResults.length - 1
+                          ? "border-b border-slate-600"
+                          : ""
+                      }`}
+                    >
+                      <div className="flex items-center justify-between">
+                        <span>{result.title}</span>
+                        <Badge
+                          variant={
+                            result.category === "런너" ? "secondary" : "outline"
+                          }
+                          className={`text-xs border-gray-200 ${
+                            result.category === "런너"
+                              ? "bg-blue-50 text-blue-700"
+                              : "bg-green-50 text-green-700"
+                          }`}
+                        >
+                          {result.category}
+                        </Badge>
+                      </div>
+                    </Link>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
 
@@ -72,14 +150,57 @@ const Header = () => {
         >
           <div className="mt-4">
             <div className="relative mb-4">
-              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <HiOutlineSearch className="h-5 w-5 text-gray-400" />
-              </div>
               <Input
                 type="text"
                 placeholder="검색어를 입력해주세요..."
-                className="w-full pl-10 bg-slate-700 border-slate-600 text-white placeholder-gray-400 focus:ring-0"
+                className="w-full pr-10 bg-slate-700 border-slate-600 text-white placeholder-gray-400 focus:ring-0"
+                value={searchQuery}
+                onChange={handleInputChange}
+                onFocus={() => setIsSearchFocused(true)}
+                onBlur={() => setTimeout(() => setIsSearchFocused(false), 200)}
               />
+              {searchQuery && (
+                <button
+                  className="absolute inset-y-0 right-0 pr-3 flex items-center"
+                  onClick={() => {
+                    setSearchQuery("");
+                    setSearchResults([]);
+                  }}
+                >
+                  <HiOutlineX className="h-5 w-5 text-gray-400 hover:text-white" />
+                </button>
+              )}
+              {isSearchFocused && searchResults.length > 0 && (
+                <div className="absolute top-full left-0 right-0 mt-1 bg-slate-700 rounded-lg shadow-lg lg:max-h-92 max-h-36 overflow-y-auto z-50">
+                  {searchResults.map((result, index) => (
+                    <Link
+                      key={result.articleVersionId}
+                      href={`/article/${result.articleVersionId}`}
+                      className={`block px-4 py-2 text-white hover:bg-slate-600 transition-colors ${
+                        index !== searchResults.length - 1
+                          ? "border-b border-slate-600"
+                          : ""
+                      }`}
+                    >
+                      <div className="flex items-center justify-between">
+                        <span>{result.title}</span>
+                        <Badge
+                          variant={
+                            result.category === "런너" ? "secondary" : "outline"
+                          }
+                          className={`text-xs border-gray-200 ${
+                            result.category === "런너"
+                              ? "bg-blue-50 text-blue-700"
+                              : "bg-green-50 text-green-700"
+                          }`}
+                        >
+                          {result.category}
+                        </Badge>
+                      </div>
+                    </Link>
+                  ))}
+                </div>
+              )}
             </div>
             <nav className="flex flex-col items-center space-y-2">
               <Link href="/runner" className="w-full">
