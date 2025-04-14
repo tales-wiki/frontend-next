@@ -49,14 +49,8 @@ export default function ReportModal({
       );
 
       if (!response.ok) {
-        if (response.status === 400) {
-          const errorData = await response.json();
-          if (errorData.code === "ALREADY_ARTICLE_REPORT_VERSION_ID") {
-            throw new Error("이미 신고한 문서입니다.");
-          }
-        } else {
-          throw new Error("신고 제출에 실패했습니다.");
-        }
+        const errorData = await response.json();
+        throw new Error(errorData.message || "신고 제출에 실패했습니다.");
       }
 
       setReportContent("");

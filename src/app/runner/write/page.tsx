@@ -30,18 +30,19 @@ export default function RunnerWriter() {
 
     try {
       const content = editorRef.current?.getInstance().getMarkdown() || "";
-
-      const { articleVersionId } = await createArticle({
+      const response = await createArticle({
         title,
         nickname,
         content,
         category: "runner",
       });
 
-      router.push(`/article/${articleVersionId}`);
+      router.push(`/article/${response.articleVersionId}`);
     } catch (error) {
       console.error("게시글 작성 에러:", error);
-      alert("게시글 작성에 실패했습니다.");
+      alert(
+        error instanceof Error ? error.message : "게시글 작성에 실패했습니다."
+      );
     }
   };
 

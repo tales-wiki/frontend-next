@@ -86,14 +86,23 @@ export default function ArticleEdit({ params }: Props) {
           return;
         }
 
-        throw new Error("Failed to update article");
+        let errorMessage = "게시글 수정에 실패했습니다.";
+        try {
+          const errorData = await response.json();
+          errorMessage = errorData.message || errorMessage;
+        } catch (e) {
+          console.warn("에러 응답을 JSON으로 파싱하지 못했습니다:", e);
+        }
+
+        alert(errorMessage);
+        return;
       }
 
       const { articleVersionId } = await response.json();
       router.push(`/article/${articleVersionId}`);
     } catch (error) {
       console.error("게시글 수정 에러:", error);
-      alert("게시글 수정에 실패했습니다.");
+      alert("게시글 수정 중 예기치 못한 오류가 발생했습니다.");
     }
   };
 
