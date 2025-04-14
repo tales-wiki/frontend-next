@@ -4,6 +4,7 @@ import { BackButton } from "@/components/common/BackButton";
 import MarkdownEditor from "@/components/editor/MarkdownEditor";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { getArticleVersion } from "@/lib/api/article";
 import { uploadImage } from "@/lib/api/uploadImage";
 import EditorCore from "@toast-ui/editor";
 import "@toast-ui/editor/dist/toastui-editor.css";
@@ -24,16 +25,6 @@ interface ArticleVersion {
   isNoEditing: boolean;
   isHiding: boolean;
   createdAt: string;
-}
-
-async function getArticleVersion(id: string): Promise<ArticleVersion> {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/articles/versions/${id}`
-  );
-  if (!res.ok) {
-    throw new Error("Failed to fetch article");
-  }
-  return res.json();
 }
 
 export default function ArticleEdit({ params }: Props) {

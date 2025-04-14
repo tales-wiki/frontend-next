@@ -6,35 +6,16 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { getArticleVersion } from "@/lib/api/article";
 import { formatDateTime3 } from "@/lib/utils/DateFormatter";
 import "@toast-ui/editor/dist/toastui-editor-viewer.css";
 import { ChevronDown } from "lucide-react";
 import Link from "next/link";
 
-interface ArticleVersion {
-  articleId: number;
-  articleVersionId: number;
-  title: string;
-  content: string;
-  isNoEditing: boolean;
-  isHiding: boolean;
-  createdAt: string;
-}
-
 interface Props {
   params: {
     id: string;
   };
-}
-
-async function getArticleVersion(id: string): Promise<ArticleVersion> {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/articles/versions/${id}`
-  );
-  if (!res.ok) {
-    throw new Error("Failed to fetch article");
-  }
-  return res.json();
 }
 
 export default async function Article({ params }: Props) {
