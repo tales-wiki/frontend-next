@@ -1,15 +1,10 @@
 import ArticleViewer from "@/components/article/ArticleViewer";
+import ReportModal from "@/components/article/ReportModal";
 import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { getArticleVersion } from "@/lib/api/article";
 import { formatDateTime3 } from "@/lib/utils/DateFormatter";
 import "@toast-ui/editor/dist/toastui-editor-viewer.css";
-import { ChevronDown } from "lucide-react";
+import { History, Pencil, Siren } from "lucide-react";
 import Link from "next/link";
 
 interface Props {
@@ -31,44 +26,41 @@ export default async function Article({ params }: Props) {
           </h1>
         </div>
         <div className="flex gap-2">
-          <div className="lg:hidden">
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="focus-visible:ring-0 focus-visible:shadow-none"
-                >
-                  <ChevronDown className="h-5 w-5 text-slate-800" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent
-                align="end"
-                className="bg-slate-600 rounded-md shadow-lg border border-slate-500 w-40"
+          <div className="lg:hidden flex gap-2">
+            <ReportModal articleVersionId={article.articleVersionId}>
+              <Button
+                size="sm"
+                className="bg-red-400 hover:bg-red-500 text-white"
               >
-                <DropdownMenuItem className="text-sm text-white hover:bg-slate-500 cursor-pointer">
-                  신고하기
-                </DropdownMenuItem>
-                <Link href={`/article/${article.articleId}/versions`}>
-                  <DropdownMenuItem className="text-sm text-white hover:bg-slate-500 cursor-pointer">
-                    편집로그
-                  </DropdownMenuItem>
-                </Link>
-                <Link href={`/article/${article.articleId}/edit`}>
-                  <DropdownMenuItem className="text-sm text-white hover:bg-slate-500 cursor-pointer">
-                    편집하기
-                  </DropdownMenuItem>
-                </Link>
-              </DropdownMenuContent>
-            </DropdownMenu>
+                <Siren className="w-4 h-4" />
+              </Button>
+            </ReportModal>
+            <Link href={`/article/${article.articleId}/versions`}>
+              <Button
+                size="sm"
+                className="bg-slate-400 hover:bg-slate-500 text-white"
+              >
+                <History className="w-4 h-4" />
+              </Button>
+            </Link>
+            <Link href={`/article/${article.articleId}/edit`}>
+              <Button
+                size="sm"
+                className="bg-slate-600 hover:bg-slate-700 text-white"
+              >
+                <Pencil className="w-4 h-4" />
+              </Button>
+            </Link>
           </div>
           <div className="hidden lg:flex gap-2">
-            <Button
-              size="sm"
-              className="bg-red-400 hover:bg-red-500 text-white"
-            >
-              신고하기
-            </Button>
+            <ReportModal articleVersionId={article.articleVersionId}>
+              <Button
+                size="sm"
+                className="bg-red-400 hover:bg-red-500 text-white"
+              >
+                신고하기
+              </Button>
+            </ReportModal>
             <Link href={`/article/${article.articleId}/versions`}>
               <Button
                 size="sm"
