@@ -238,18 +238,23 @@ const Header = () => {
               <Link
                 href="/runner"
                 className="w-full py-2 text-center text-gray-300 hover:text-white hover:bg-slate-700 rounded-lg text-base transition-colors"
+                onClick={() => setIsMenuOpen(false)}
               >
                 런너사전
               </Link>
               <Link
                 href="/guild"
                 className="w-full py-2 text-center text-gray-300 hover:text-white hover:bg-slate-700 rounded-lg text-base transition-colors"
+                onClick={() => setIsMenuOpen(false)}
               >
                 길드사전
               </Link>
               {isLoggedIn ? (
                 <button
-                  onClick={handleLogout}
+                  onClick={() => {
+                    handleLogout();
+                    setIsMenuOpen(false);
+                  }}
                   className="w-full py-2 text-center text-gray-300 hover:text-white hover:bg-slate-700 rounded-lg text-base transition-colors"
                 >
                   로그아웃
@@ -258,6 +263,7 @@ const Header = () => {
                 <Link
                   href="/login"
                   className="w-full py-2 text-center text-gray-300 hover:text-white hover:bg-slate-700 rounded-lg text-base transition-colors"
+                  onClick={() => setIsMenuOpen(false)}
                 >
                   로그인
                 </Link>

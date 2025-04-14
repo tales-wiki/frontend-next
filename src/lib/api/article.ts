@@ -19,7 +19,7 @@ interface ArticleVersion {
   createdAt: string;
 }
 
-export async function getArticleVersion(id: string): Promise<ArticleVersion> {
+export async function getArticleVersion(id: number): Promise<ArticleVersion> {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/articles/versions/${id}`
   );

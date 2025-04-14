@@ -15,7 +15,7 @@ interface Props {
 
 export default async function Article({ params }: Props) {
   const { id } = await params;
-  const article = await getArticleVersion(id);
+  const article = await getArticleVersion(parseInt(id));
 
   return (
     <div>
