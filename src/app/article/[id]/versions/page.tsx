@@ -28,9 +28,9 @@ export default async function ArticleVersions({ params }: Props) {
           <Link
             key={version.articleVersionId}
             href={`/article/${version.articleVersionId}`}
-            className="block bg-white rounded-lg  border border-slate-200"
+            className="block bg-white rounded-lg border border-slate-200"
           >
-            <div className="flex px-4 py-2 justify-between items-center bg-slate-200">
+            <div className="flex px-4 py-2 justify-between items-center bg-slate-100">
               <span className="font-medium">버전 {version.versionNumber}</span>
               <span className="text-sm text-gray-500">
                 {formatFileSize(version.size)}
