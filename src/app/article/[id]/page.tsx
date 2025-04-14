@@ -36,7 +36,8 @@ async function getArticleVersion(id: string): Promise<ArticleVersion> {
 }
 
 export default async function Article({ params }: Props) {
-  const article = await getArticleVersion(params.id);
+  const { id } = await params;
+  const article = await getArticleVersion(id);
 
   return (
     <div>
