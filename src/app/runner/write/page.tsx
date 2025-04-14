@@ -1,5 +1,6 @@
 "use client";
 
+import { BackButton } from "@/components/common/BackButton";
 import MarkdownEditor from "@/components/editor/MarkdownEditor";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -94,13 +95,7 @@ export default function RunnerWriter() {
           />
         </div>
         <div className="flex justify-end gap-2">
-          <Button
-            size="sm"
-            className="bg-slate-400 hover:bg-slate-500 text-white"
-            onClick={() => router.back()}
-          >
-            뒤로가기
-          </Button>
+          <BackButton />
           <Button
             size="sm"
             className="bg-slate-600 hover:bg-slate-700 text-white"

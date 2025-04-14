@@ -1,3 +1,5 @@
+import { BackButton } from "@/components/common/BackButton";
+import { getArticleVersions } from "@/lib/api/article";
 import { formatDateTime3 } from "@/lib/utils/DateFormatter";
 import Link from "next/link";
 
@@ -7,29 +9,15 @@ interface Props {
   };
 }
 
-interface Version {
-  articleVersionId: number;
-  nickname: string;
-  versionNumber: number;
-  size: number;
-  isHiding: boolean;
-  createdAt: string;
-}
-
-interface ApiResponse {
-  title: string;
-  payload: Version[];
-}
-
 export default async function ArticleVersions({ params }: Props) {
-  const response = await fetch(
-    `http://127.0.0.1:8080/api/articles/${params.id}/versions`
-  );
-  const data: ApiResponse = await response.json();
+  const data = await getArticleVersions(params.id);
 
   return (
-    <div className="p-4">
-      <h1 className="text-2xl font-bold mb-6">편집 기록</h1>
+    <div>
+      <div className="flex justify-between items-center mb-6">
+        <h1 className="text-2xl font-bold">편집 기록</h1>
+        <BackButton />
+      </div>
       <h2 className="text-xl font-bold mb-4">{data.title}</h2>
       <table className="min-w-full bg-white border border-gray-200">
         <thead>
