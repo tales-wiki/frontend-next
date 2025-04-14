@@ -1,3 +1,4 @@
+import ArticleViewer from "@/components/article/ArticleViewer";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -5,6 +6,8 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { formatDateTime3 } from "@/lib/utils/DateFormatter";
+import "@toast-ui/editor/dist/toastui-editor-viewer.css";
 import { ChevronDown } from "lucide-react";
 
 interface ArticleVersion {
@@ -87,13 +90,21 @@ export default async function Article({ params }: Props) {
               size="sm"
               className="bg-slate-600 hover:bg-slate-700 text-white"
             >
-              작성하기
+              편집하기
             </Button>
           </div>
         </div>
       </div>
       <div className="prose max-w-none">
-        <div className="whitespace-pre-wrap">{article.content}</div>
+        <ArticleViewer content={article.content} />
+      </div>
+      <div className="mt-8">
+        <div className="bg-gray-100 rounded-lg p-4">
+          <div className="text-xs text-gray-500">
+            이 문서는 {formatDateTime3(article.createdAt)}에 마지막으로
+            편집되었습니다.
+          </div>
+        </div>
       </div>
     </div>
   );

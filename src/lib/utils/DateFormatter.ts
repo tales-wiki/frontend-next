@@ -33,6 +33,40 @@ export const formatDateTime = (date: Date | string): string => {
 };
 
 /**
+ * 날짜를 'YYYY년 MM월 DD일 HH시 mm분 ss초' 형식으로 변환
+ * @param date 변환할 날짜
+ * @returns 포맷팅된 날짜와 시간 문자열
+ */
+export const formatDateTime2 = (date: Date | string): string => {
+  const d = new Date(date);
+  const year = d.getFullYear();
+  const month = String(d.getMonth() + 1).padStart(2, "0");
+  const day = String(d.getDate()).padStart(2, "0");
+  const hours = String(d.getHours()).padStart(2, "0");
+  const minutes = String(d.getMinutes()).padStart(2, "0");
+  const seconds = String(d.getSeconds()).padStart(2, "0");
+
+  return `${year}년 ${month}월 ${day}일 ${hours}시 ${minutes}분 ${seconds}초`;
+};
+
+/**
+ * 날짜를 'YYYY년 MM월 DD일 (요일) HH시 mm분 ss초' 형식으로 변환
+ * @param date 변환할 날짜
+ * @returns 포맷팅된 날짜와 시간 문자열
+ */
+export const formatDateTime3 = (date: Date | string): string => {
+  const d = new Date(date);
+  const year = d.getFullYear();
+  const month = String(d.getMonth() + 1).padStart(2, "0");
+  const day = String(d.getDate()).padStart(2, "0");
+  const hours = String(d.getHours()).padStart(2, "0");
+  const minutes = String(d.getMinutes()).padStart(2, "0");
+  const seconds = String(d.getSeconds()).padStart(2, "0");
+  const dayOfWeek = ["일", "월", "화", "수", "목", "금", "토"][d.getDay()];
+  return `${year}년 ${month}월 ${day}일 (${dayOfWeek}) ${hours}시 ${minutes}분 ${seconds}초`;
+};
+
+/**
  * 상대적 시간을 표시 (예: 3분 전, 2시간 전, 1일 전)
  * @param date 변환할 날짜
  * @returns 상대적 시간 문자열
