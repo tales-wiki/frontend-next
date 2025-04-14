@@ -8,9 +8,9 @@ import { History, Pencil, Siren } from "lucide-react";
 import Link from "next/link";
 
 interface Props {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 }
 
 export default async function Article({ params }: Props) {

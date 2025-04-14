@@ -39,7 +39,7 @@ export default function ArticleEdit({ params }: Props) {
   useEffect(() => {
     const fetchArticle = async () => {
       try {
-        const data = await getArticleVersion(unwrappedParams.id);
+        const data = await getArticleVersion(parseInt(unwrappedParams.id));
         setArticle(data);
         setTitle(data.title);
       } catch (error) {

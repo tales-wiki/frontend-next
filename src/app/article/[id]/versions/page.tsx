@@ -5,9 +5,9 @@ import { formatFileSize } from "@/lib/utils/FileSizeFormatter";
 import Link from "next/link";
 
 interface Props {
-  params: {
+  params: Promise<{
     id: number;
-  };
+  }>;
 }
 
 export default async function ArticleVersions({ params }: Props) {
