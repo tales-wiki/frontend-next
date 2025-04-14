@@ -23,6 +23,15 @@ export default function RunnerWriter() {
   const [isUploading, setIsUploading] = useState(false);
 
   const handleSubmit = async () => {
+    if (!title.trim()) {
+      alert("닉네임을 입력해주세요.");
+      return;
+    }
+    if (!nickname.trim()) {
+      alert("작성자를 입력해주세요.");
+      return;
+    }
+
     try {
       const content = editorRef.current?.getInstance().getMarkdown() || "";
 
@@ -68,16 +77,16 @@ export default function RunnerWriter() {
             </div>
           </div>
         )}
-        <div className="flex items-center gap-2 w-full mb-4">
+        <div className="flex flex-col lg:flex-row items-center gap-2 w-full mb-4">
           <Input
-            placeholder="닉네임을 입력하세요"
-            className="w-[80%] border-1 border-[#dadde6] rounded-[4px] placeholder:text-slate-400"
+            placeholder="닉네임을 입력해주세요."
+            className="w-full lg:w-[80%] border-1 border-[#dadde6] rounded-[4px] placeholder:text-slate-400"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
           />
           <Input
-            placeholder="작성자"
-            className="w-[20%] border-1 border-[#dadde6] rounded-[4px] placeholder:text-slate-400"
+            placeholder="작성자를 입력해주세요."
+            className="w-full lg:w-[20%] border-1 border-[#dadde6] rounded-[4px] placeholder:text-slate-400"
             value={nickname}
             onChange={(e) => setNickname(e.target.value)}
           />
@@ -85,7 +94,7 @@ export default function RunnerWriter() {
         <div className="w-full mb-4">
           <Editor
             ref={editorRef}
-            initialValue="내용을 입력해주세요."
+            initialValue="지우고 내용을 입력해주세요."
             useCommandShortcut={true}
             previewStyle="vertical"
             height="600px"
