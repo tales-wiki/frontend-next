@@ -28,7 +28,7 @@ const ArticleList = async () => {
             className="border-b border-gray-200 pb-3 last:border-b-0 last:pb-0"
           >
             <Link
-              href={`/articles/${article.articleVersionId}`}
+              href={`/article/${article.articleVersionId}`}
               className="hover:text-blue-500 block"
             >
               <div className="text-sm mb-1.5">{article.title}</div>
