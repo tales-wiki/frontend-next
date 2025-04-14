@@ -1,6 +1,6 @@
-import { CreateRunnerArticleRequest } from "@/types/CreateRunnerArticle";
+import { CreateArticleRequest } from "@/types/CreateArticle";
 
-export const createRunnerArticle = async (data: CreateRunnerArticleRequest) => {
+export const createArticle = async (data: CreateArticleRequest) => {
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/articles`,
     {
@@ -10,7 +10,6 @@ export const createRunnerArticle = async (data: CreateRunnerArticleRequest) => {
       },
       body: JSON.stringify({
         ...data,
-        category: "runner",
       }),
     }
   );

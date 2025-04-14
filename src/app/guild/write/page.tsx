@@ -19,7 +19,7 @@ export default function RunnerWriter() {
 
   const handleSubmit = async () => {
     if (!title.trim()) {
-      alert("닉네임을 입력해주세요.");
+      alert("길드명을 입력해주세요.");
       return;
     }
     if (!nickname.trim()) {
@@ -34,10 +34,10 @@ export default function RunnerWriter() {
         title,
         nickname,
         content,
-        category: "runner",
+        category: "guild",
       });
 
-      router.push("/runner");
+      router.push("/guild");
     } catch (error) {
       console.error("게시글 작성 에러:", error);
       alert("게시글 작성에 실패했습니다.");
@@ -62,7 +62,7 @@ export default function RunnerWriter() {
     <div>
       <div className="mb-8">
         <h1 className="text-2xl font-semibold text-gray-900 mb-10">
-          런너사전 작성하기
+          길드사전 작성하기
         </h1>
         {isUploading && (
           <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center backdrop-blur-md bg-black/30 z-50">
@@ -75,7 +75,7 @@ export default function RunnerWriter() {
         )}
         <div className="flex flex-col lg:flex-row items-center gap-2 w-full mb-4">
           <Input
-            placeholder="닉네임을 입력해주세요."
+            placeholder="길드명을 입력해주세요."
             className="w-full lg:w-[80%] border-1 border-[#dadde6] rounded-[4px] placeholder:text-slate-400"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
