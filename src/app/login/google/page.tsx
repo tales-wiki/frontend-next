@@ -1,12 +1,14 @@
 "use client";
 
+import { useAuthStore } from "@/store/authStore";
 import { Loader2 } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 
-export default function KakaoCallback() {
+export default function GoogleCallback() {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const setLoggedIn = useAuthStore((state) => state.setLoggedIn);
 
   useEffect(() => {
     const code = searchParams.get("code");
@@ -25,7 +27,7 @@ export default function KakaoCallback() {
             throw new Error("로그인 요청 실패");
           }
 
-          localStorage.setItem("isLoggedIn", "true");
+          setLoggedIn(true);
           router.push("/");
         } else {
           router.push("/login");
@@ -37,7 +39,7 @@ export default function KakaoCallback() {
     };
 
     handleGoogleLogin();
-  }, [searchParams, router]);
+  }, [searchParams, router, setLoggedIn]);
 
   return (
     <div className="flex items-center justify-center min-h-[400px]">
