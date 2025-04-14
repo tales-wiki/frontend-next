@@ -9,6 +9,7 @@ import {
 import { formatDateTime3 } from "@/lib/utils/DateFormatter";
 import "@toast-ui/editor/dist/toastui-editor-viewer.css";
 import { ChevronDown } from "lucide-react";
+import Link from "next/link";
 
 interface ArticleVersion {
   articleId: number;
@@ -64,9 +65,11 @@ export default async function Article({ params }: Props) {
                 <DropdownMenuItem className="text-sm text-white hover:bg-slate-500 cursor-pointer">
                   신고하기
                 </DropdownMenuItem>
-                <DropdownMenuItem className="text-sm text-white hover:bg-slate-500 cursor-pointer">
-                  편집로그
-                </DropdownMenuItem>
+                <Link href={`/article/${article.articleId}/versions`}>
+                  <DropdownMenuItem className="text-sm text-white hover:bg-slate-500 cursor-pointer">
+                    편집로그
+                  </DropdownMenuItem>
+                </Link>
                 <DropdownMenuItem className="text-sm text-white hover:bg-slate-500 cursor-pointer">
                   편집하기
                 </DropdownMenuItem>
@@ -80,12 +83,14 @@ export default async function Article({ params }: Props) {
             >
               신고하기
             </Button>
-            <Button
-              size="sm"
-              className="bg-slate-400 hover:bg-slate-500 text-white"
-            >
-              편집로그
-            </Button>
+            <Link href={`/article/${article.articleId}/versions`}>
+              <Button
+                size="sm"
+                className="bg-slate-400 hover:bg-slate-500 text-white"
+              >
+                편집로그
+              </Button>
+            </Link>
             <Button
               size="sm"
               className="bg-slate-600 hover:bg-slate-700 text-white"
