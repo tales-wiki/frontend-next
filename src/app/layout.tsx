@@ -10,6 +10,11 @@ const notoSansKR = Noto_Sans_KR({
 
 export const metadata: Metadata = {
   title: "테일즈위키",
+  icons: {
+    icon: "/icons/logo.ico",
+    apple: "/icons/logo.ico",
+    shortcut: "/icons/logo.ico",
+  },
 };
 
 export default function RootLayout({
