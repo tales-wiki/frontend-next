@@ -24,18 +24,58 @@ export default function ReportModal({
   children,
 }: ReportModalProps) {
   const [reportContent, setReportContent] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [isOpen, setIsOpen] = useState(false);
 
   const handleSubmit = async () => {
+    if (reportContent.length < 10) return;
+
+    setIsSubmitting(true);
+    setError(null);
+
     try {
-      // TODO: 신고 API 호출 구현
-      console.log("신고 내용:", reportContent, "문서 ID:", articleVersionId);
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/articles/versions/${articleVersionId}/report`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            reportReason: reportContent,
+          }),
+        }
+      );
+
+      if (!response.ok) {
+        if (response.status === 400) {
+          const errorData = await response.json();
+          if (errorData.code === "ALREADY_ARTICLE_REPORT_VERSION_ID") {
+            throw new Error("이미 신고한 문서입니다.");
+          }
+        } else {
+          throw new Error("신고 제출에 실패했습니다.");
+        }
+      }
+
+      setReportContent("");
+      setIsOpen(false);
+      alert("신고가 제출되었습니다.");
     } catch (error) {
       console.error("신고 제출 중 오류 발생:", error);
+      setError(
+        error instanceof Error
+          ? error.message
+          : "신고 제출 중 오류가 발생했습니다."
+      );
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
   return (
-    <Dialog>
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
         {children || (
           <Button
@@ -66,17 +106,18 @@ export default function ReportModal({
             onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
               setReportContent(e.target.value)
             }
-            className="min-h-[120px] focus-visible:ring-1 focus-visible:ring-red-200 border-gray-200"
+            className="min-h-[120px] focus-visible:ring-0 border-gray-400 placeholder:text-gray-400"
           />
+          {error && <p className="text-sm text-red-500">{error}</p>}
         </div>
         <DialogFooter>
           <Button
             type="submit"
             onClick={handleSubmit}
             className="bg-red-500 hover:bg-red-600 text-white font-medium transition-colors duration-200"
-            disabled={reportContent.length < 10}
+            disabled={reportContent.length < 10 || isSubmitting}
           >
-            신고하기
+            {isSubmitting ? "제출 중..." : "신고하기"}
           </Button>
         </DialogFooter>
       </DialogContent>
