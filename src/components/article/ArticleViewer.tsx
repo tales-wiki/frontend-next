@@ -35,8 +35,8 @@ export default function ArticleViewer({ content }: ArticleViewerProps) {
             return (
               <li
                 key={index}
-                style={{ marginLeft: `${(level - 1) * 1}rem` }}
-                className="text-gray-600 hover:text-gray-900 transition-colors duration-200"
+                style={{ marginLeft: `${(level - 1) * 0.75}rem` }}
+                className="text-sm text-gray-600 hover:text-blue-600 py-1"
               >
                 <a
                   href={`#${headingId}`}
@@ -85,12 +85,12 @@ export default function ArticleViewer({ content }: ArticleViewerProps) {
       <div className="mb-4">
         <button
           onClick={() => setIsTocOpen(!isTocOpen)}
-          className="flex items-center gap-2 text-sm text-gray-600 hover:text-gray-900 transition-colors duration-200"
+          className="flex items-center gap-2 text-sm text-gray-600 hover:text-gray-900"
         >
           {isTocOpen ? (
             <>
               <ChevronUp className="w-4 h-4" />
-              목차 닫기
+              목차 열기
             </>
           ) : (
             <>
@@ -100,7 +100,7 @@ export default function ArticleViewer({ content }: ArticleViewerProps) {
           )}
         </button>
         {isTocOpen && tocContent && (
-          <div className="mt-2 bg-gray-50 rounded-lg p-4">{tocContent}</div>
+          <div className="mt-2 bg-gray-100 rounded-lg p-4">{tocContent}</div>
         )}
       </div>
       <div ref={viewerRef}>

@@ -30,14 +30,14 @@ export default function RunnerWriter() {
     try {
       const content = editorRef.current?.getInstance().getMarkdown() || "";
 
-      await createArticle({
+      const { articleVersionId } = await createArticle({
         title,
         nickname,
         content,
         category: "guild",
       });
 
-      router.push("/guild");
+      router.push(`/article/${articleVersionId}`);
     } catch (error) {
       console.error("게시글 작성 에러:", error);
       alert("게시글 작성에 실패했습니다.");
