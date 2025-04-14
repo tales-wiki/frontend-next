@@ -28,7 +28,9 @@ interface Props {
 }
 
 async function getArticleVersion(id: string): Promise<ArticleVersion> {
-  const res = await fetch(`http://127.0.0.1:8080/api/articles/versions/${id}`);
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/articles/versions/${id}`
+  );
   if (!res.ok) {
     throw new Error("Failed to fetch article");
   }
@@ -71,9 +73,11 @@ export default async function Article({ params }: Props) {
                     편집로그
                   </DropdownMenuItem>
                 </Link>
-                <DropdownMenuItem className="text-sm text-white hover:bg-slate-500 cursor-pointer">
-                  편집하기
-                </DropdownMenuItem>
+                <Link href={`/article/${article.articleId}/edit`}>
+                  <DropdownMenuItem className="text-sm text-white hover:bg-slate-500 cursor-pointer">
+                    편집하기
+                  </DropdownMenuItem>
+                </Link>
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
@@ -92,12 +96,14 @@ export default async function Article({ params }: Props) {
                 편집로그
               </Button>
             </Link>
-            <Button
-              size="sm"
-              className="bg-slate-600 hover:bg-slate-700 text-white"
-            >
-              편집하기
-            </Button>
+            <Link href={`/article/${article.articleVersionId}/edit`}>
+              <Button
+                size="sm"
+                className="bg-slate-600 hover:bg-slate-700 text-white"
+              >
+                편집하기
+              </Button>
+            </Link>
           </div>
         </div>
       </div>
