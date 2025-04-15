@@ -46,7 +46,7 @@ export default function IPBlockPage() {
       try {
         const response = await fetch(
           `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/admin/ip-block?page=${page}`,
-          { cache: "no-store" }
+          { cache: "no-store", credentials: "include" }
         );
 
         if (!response.ok) {
@@ -80,6 +80,7 @@ export default function IPBlockPage() {
           headers: {
             "Content-Type": "application/json",
           },
+          credentials: "include",
           body: JSON.stringify({ ip: newIP }),
         }
       );
@@ -113,6 +114,7 @@ export default function IPBlockPage() {
           headers: {
             "Content-Type": "application/json",
           },
+          credentials: "include",
           body: JSON.stringify({ ip }),
         }
       );

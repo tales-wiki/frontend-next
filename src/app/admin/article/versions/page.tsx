@@ -1,15 +1,18 @@
-import { Metadata } from "next";
+import { cookies } from "next/headers";
 import ArticleVersionsTable from "./ArticleVersionsTable";
 
-export const metadata: Metadata = {
-  title: "게시글 버전 관리",
-  description: "게시글 버전 목록을 관리하는 페이지입니다.",
-};
-
 async function getVersions(page: number = 0) {
+  const cookieStore = cookies();
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/admin/articles/versions?page=${page}`,
-    { cache: "no-store" }
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Cookie: cookieStore.toString(),
+      },
+      cache: "no-store",
+    }
   );
   if (!response.ok) {
     throw new Error("게시글 버전 목록을 불러오는데 실패했습니다.");

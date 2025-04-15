@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/table";
 import { formatDateTime3 } from "@/lib/utils/DateFormatter";
 import { Metadata } from "next";
+import { cookies } from "next/headers";
 
 interface Member {
   memberId: number;
@@ -53,10 +54,14 @@ function getSocialBadge(social: string) {
 }
 
 async function getMembers(page: number = 0) {
+  const cookieStore = cookies();
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/admin/members?page=${page}`,
     {
       cache: "no-store",
+      headers: {
+        Cookie: cookieStore.toString(),
+      },
     }
   );
 

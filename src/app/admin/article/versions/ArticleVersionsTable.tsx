@@ -98,6 +98,7 @@ export default function ArticleVersionsTable({
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/admin/articles/${articleId}`,
         {
           method: "DELETE",
+          credentials: "include",
         }
       );
 
@@ -126,6 +127,7 @@ export default function ArticleVersionsTable({
           headers: {
             "Content-Type": "application/json",
           },
+          credentials: "include",
           body: JSON.stringify({ isNoEditing }),
         }
       );
@@ -164,6 +166,7 @@ export default function ArticleVersionsTable({
           headers: {
             "Content-Type": "application/json",
           },
+          credentials: "include",
           body: JSON.stringify({ isHiding }),
         }
       );

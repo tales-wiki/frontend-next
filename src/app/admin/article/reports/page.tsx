@@ -19,6 +19,7 @@ import {
 import { formatDateTime3 } from "@/lib/utils/DateFormatter";
 import { Eye } from "lucide-react";
 import { Metadata } from "next";
+import { cookies } from "next/headers";
 import Link from "next/link";
 
 export const metadata: Metadata = {
@@ -39,9 +40,15 @@ interface ArticleVersionReport {
 }
 
 async function getReports(page: number = 0) {
+  const cookieStore = cookies();
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/admin/articles/versions/reports?page=${page}`,
-    { cache: "no-store" }
+    {
+      cache: "no-store",
+      headers: {
+        Cookie: cookieStore.toString(),
+      },
+    }
   );
   if (!response.ok) {
     throw new Error("게시글 신고 목록을 불러오는데 실패했습니다.");
