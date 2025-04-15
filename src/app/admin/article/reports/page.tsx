@@ -67,9 +67,10 @@ function getCategoryBadge(category: string) {
 export default async function ArticleReportsPage({
   searchParams,
 }: {
-  searchParams: { page?: string };
+  searchParams: Promise<{ page?: string }>;
 }) {
-  const page = searchParams?.page ? parseInt(searchParams.page) : 0;
+  const params = await searchParams;
+  const page = params?.page ? parseInt(params.page) : 0;
   const { content: reports, totalPages, number } = await getReports(page);
 
   return (
