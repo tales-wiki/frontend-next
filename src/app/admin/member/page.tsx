@@ -12,10 +12,9 @@ import { formatDateTime3 } from "@/lib/utils/DateFormatter";
 import { Metadata } from "next";
 
 interface Member {
-  id: number;
+  memberId: number;
   email: string;
   social: string;
-  authority: string;
   createdAt: string | null;
 }
 
@@ -48,35 +47,6 @@ function getSocialBadge(social: string) {
       return (
         <Badge variant="outline" className="text-xs border-gray-200">
           {social}
-        </Badge>
-      );
-  }
-}
-
-function getAuthorityBadge(authority: string) {
-  switch (authority) {
-    case "ADMIN":
-      return (
-        <Badge
-          variant="secondary"
-          className="text-xs border-gray-200 bg-red-50 text-red-700"
-        >
-          관리자
-        </Badge>
-      );
-    case "MEMBER":
-      return (
-        <Badge
-          variant="secondary"
-          className="text-xs border-gray-200 bg-green-50 text-green-700"
-        >
-          일반회원
-        </Badge>
-      );
-    default:
-      return (
-        <Badge variant="outline" className="text-xs border-gray-200">
-          {authority}
         </Badge>
       );
   }
@@ -122,9 +92,6 @@ export default async function AdminPage({
               <TableHead className="text-right font-semibold text-gray-600 px-6">
                 소셜 로그인
               </TableHead>
-              <TableHead className="text-right font-semibold text-gray-600 px-6">
-                권한
-              </TableHead>
               <TableHead className="text-right font-semibold text-gray-600 px-6 w-[180px]">
                 가입일
               </TableHead>
@@ -133,20 +100,17 @@ export default async function AdminPage({
           <TableBody>
             {members.map((member: Member) => (
               <TableRow
-                key={member.id}
+                key={member.memberId}
                 className="hover:bg-gray-50 transition-colors duration-150 border-b border-gray-100 last:border-b-0"
               >
                 <TableCell className="font-medium text-gray-900 px-6">
-                  {member.id}
+                  {member.memberId}
                 </TableCell>
                 <TableCell className="text-right text-gray-700 px-6">
                   {member.email}
                 </TableCell>
                 <TableCell className="text-right px-6">
                   {getSocialBadge(member.social)}
-                </TableCell>
-                <TableCell className="text-right px-6">
-                  {getAuthorityBadge(member.authority)}
                 </TableCell>
                 <TableCell className="text-right text-gray-500 px-6 w-[180px]">
                   {member.createdAt ? formatDateTime3(member.createdAt) : "-"}
