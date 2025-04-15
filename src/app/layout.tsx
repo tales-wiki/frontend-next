@@ -1,6 +1,7 @@
 import Layout from "@/components/layout/Layout";
 import type { Metadata } from "next";
 import { Noto_Sans_KR } from "next/font/google";
+import { Toaster } from "sonner";
 import "./globals.css";
 
 const notoSansKR = Noto_Sans_KR({
@@ -26,6 +27,7 @@ export default function RootLayout({
     <html lang="ko">
       <body className={notoSansKR.className}>
         <Layout>{children}</Layout>
+        <Toaster position="top-right" />
       </body>
     </html>
   );
