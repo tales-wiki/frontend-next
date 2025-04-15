@@ -8,6 +8,7 @@ import { getArticleVersion } from "@/lib/api/article";
 import { uploadImage } from "@/lib/api/uploadImage";
 import EditorCore from "@toast-ui/editor";
 import "@toast-ui/editor/dist/toastui-editor.css";
+import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { use, useEffect, useRef, useState } from "react";
 
@@ -121,7 +122,11 @@ export default function ArticleEdit({ params }: Props) {
   };
 
   if (!article) {
-    return <div>Loading...</div>;
+    return (
+      <div className="flex items-center justify-center min-h-[400px]">
+        <Loader2 className="h-8 w-8 animate-spin text-slate-700" />
+      </div>
+    );
   }
 
   return (
