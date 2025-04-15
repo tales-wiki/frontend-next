@@ -20,10 +20,22 @@ export default async function Article({ params }: Props) {
   return (
     <div>
       <div className="flex items-center justify-between mb-8">
-        <div className="flex items-center">
+        <div className="flex flex-col">
           <h1 className="text-2xl font-semibold text-gray-900">
             {article.title}
           </h1>
+          <div className="flex gap-2 mt-2">
+            {article.isHiding && (
+              <span className="px-2 py-1 text-xs font-medium bg-yellow-100 text-yellow-800 rounded">
+                숨김
+              </span>
+            )}
+            {article.isNoEditing && (
+              <span className="px-2 py-1 text-xs font-medium bg-red-100 text-red-800 rounded">
+                편집 금지
+              </span>
+            )}
+          </div>
         </div>
         <div className="flex gap-2">
           <div className="lg:hidden flex gap-2">
@@ -43,14 +55,16 @@ export default async function Article({ params }: Props) {
                 <History className="w-4 h-4" />
               </Button>
             </Link>
-            <Link href={`/article/${article.articleId}/edit`}>
-              <Button
-                size="sm"
-                className="bg-slate-600 hover:bg-slate-700 text-white"
-              >
-                <Pencil className="w-4 h-4" />
-              </Button>
-            </Link>
+            {!article.isNoEditing && (
+              <Link href={`/article/${article.articleId}/edit`}>
+                <Button
+                  size="sm"
+                  className="bg-slate-600 hover:bg-slate-700 text-white"
+                >
+                  <Pencil className="w-4 h-4" />
+                </Button>
+              </Link>
+            )}
           </div>
           <div className="hidden lg:flex gap-2">
             <ReportModal articleVersionId={article.articleVersionId}>
@@ -69,14 +83,16 @@ export default async function Article({ params }: Props) {
                 편집로그
               </Button>
             </Link>
-            <Link href={`/article/${article.articleVersionId}/edit`}>
-              <Button
-                size="sm"
-                className="bg-slate-600 hover:bg-slate-700 text-white"
-              >
-                편집하기
-              </Button>
-            </Link>
+            {!article.isNoEditing && (
+              <Link href={`/article/${article.articleVersionId}/edit`}>
+                <Button
+                  size="sm"
+                  className="bg-slate-600 hover:bg-slate-700 text-white"
+                >
+                  편집하기
+                </Button>
+              </Link>
+            )}
           </div>
         </div>
       </div>
