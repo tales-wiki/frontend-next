@@ -1,6 +1,10 @@
 import { cookies } from "next/headers";
 import ArticleVersionsTable from "./ArticleVersionsTable";
 
+type Props = {
+  searchParams: Promise<{ page?: string }>;
+};
+
 async function getVersions(page: number = 0) {
   const cookieStore = cookies();
   const response = await fetch(
@@ -20,12 +24,11 @@ async function getVersions(page: number = 0) {
   return response.json();
 }
 
-export default async function ArticleVersionsPage({
-  searchParams,
-}: {
-  searchParams: { page?: string };
-}) {
-  const page = searchParams?.page ? parseInt(searchParams.page) : 0;
+export default async function ArticleVersionsPage({ searchParams }: Props) {
+  const resolvedSearchParams = await searchParams;
+  const page = resolvedSearchParams?.page
+    ? parseInt(resolvedSearchParams.page)
+    : 0;
   const { content: versions, totalPages, number } = await getVersions(page);
 
   return (
