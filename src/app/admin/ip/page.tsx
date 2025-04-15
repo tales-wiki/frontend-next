@@ -19,7 +19,7 @@ import {
 } from "@/components/ui/table";
 import { formatDateTime3 } from "@/lib/utils/DateFormatter";
 import { Plus, Trash2 } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import { toast } from "sonner";
 
@@ -38,35 +38,38 @@ export default function IPBlockPage() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const { ref, inView } = useInView();
 
-  const fetchBlockedIPs = async (page: number) => {
-    if (isLoading) return;
-    setIsLoading(true);
+  const fetchBlockedIPs = useCallback(
+    async (page: number) => {
+      if (isLoading) return;
+      setIsLoading(true);
 
-    try {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/admin/ip-block?page=${page}`,
-        { cache: "no-store" }
-      );
+      try {
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/admin/ip-block?page=${page}`,
+          { cache: "no-store" }
+        );
 
-      if (!response.ok) {
-        throw new Error("IP 차단 목록을 불러오는데 실패했습니다.");
+        if (!response.ok) {
+          throw new Error("IP 차단 목록을 불러오는데 실패했습니다.");
+        }
+
+        const data = await response.json();
+        const newIPs = data.payload;
+
+        if (newIPs.length === 0) {
+          setHasMore(false);
+        } else {
+          setBlockedIPs((prev) => [...prev, ...newIPs]);
+          setPage((prev) => prev + 1);
+        }
+      } catch (error) {
+        console.error("Error fetching blocked IPs:", error);
+      } finally {
+        setIsLoading(false);
       }
-
-      const data = await response.json();
-      const newIPs = data.payload;
-
-      if (newIPs.length === 0) {
-        setHasMore(false);
-      } else {
-        setBlockedIPs((prev) => [...prev, ...newIPs]);
-        setPage((prev) => prev + 1);
-      }
-    } catch (error) {
-      console.error("Error fetching blocked IPs:", error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+    },
+    [isLoading]
+  );
 
   const handleAddIP = async () => {
     try {
@@ -133,7 +136,7 @@ export default function IPBlockPage() {
     if (inView && hasMore && !isLoading) {
       fetchBlockedIPs(page);
     }
-  }, [inView, hasMore, isLoading, page]);
+  }, [inView, hasMore, isLoading, page, fetchBlockedIPs]);
 
   return (
     <div>
