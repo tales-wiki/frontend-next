@@ -14,12 +14,14 @@ interface MarkdownEditorProps {
   initialValue?: string;
   onImageUpload?: (file: File) => Promise<string>;
   editorRef: React.RefObject<EditorCore>;
+  onChange?: () => void;
 }
 
 export default function MarkdownEditor({
   initialValue = "지우고 내용을 입력해주세요.",
   onImageUpload,
   editorRef,
+  onChange,
 }: MarkdownEditorProps) {
   const [isUploading, setIsUploading] = useState(false);
 
@@ -57,6 +59,7 @@ export default function MarkdownEditor({
         previewStyle="vertical"
         height="600px"
         initialEditType="markdown"
+        onChange={onChange}
         hooks={{
           addImageBlobHook: async (
             blob: Blob,

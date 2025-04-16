@@ -9,7 +9,7 @@ import { uploadImage } from "@/lib/api/uploadImage";
 import EditorCore from "@toast-ui/editor";
 import "@toast-ui/editor/dist/toastui-editor.css";
 import { useRouter } from "next/navigation";
-import { useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 interface ArticleWriterProps {
   category: "runner" | "guild";
@@ -27,6 +27,37 @@ export default function ArticleWriter({
   const [title, setTitle] = useState("");
   const [nickname, setNickname] = useState("");
   const [isUploading, setIsUploading] = useState(false);
+
+  // 임시저장 데이터 로드
+  useEffect(() => {
+    const savedData = localStorage.getItem(`draft_${category}`);
+    if (savedData) {
+      const { content: savedContent } = JSON.parse(savedData);
+      if (editorRef.current) {
+        editorRef.current.getInstance().setMarkdown(savedContent);
+      }
+    }
+  }, [category]);
+
+  // 임시저장
+  const saveDraft = useCallback(() => {
+    const content = editorRef.current?.getInstance().getMarkdown() || "";
+    const draftData = {
+      content,
+    };
+    localStorage.setItem(`draft_${category}`, JSON.stringify(draftData));
+  }, [category]);
+
+  // 입력값 변경 시 자동 저장
+  useEffect(() => {
+    const autoSaveTimer = setTimeout(saveDraft, 1000);
+    return () => clearTimeout(autoSaveTimer);
+  }, [title, nickname, saveDraft]);
+
+  // 에디터 내용 변경 시 자동 저장
+  const handleEditorChange = () => {
+    saveDraft();
+  };
 
   const handleSubmit = async () => {
     if (!title.trim()) {
@@ -46,6 +77,9 @@ export default function ArticleWriter({
         content,
         category,
       });
+
+      // 임시저장 삭제
+      localStorage.removeItem(`draft_${category}`);
 
       router.push(`/article/${response.articleVersionId}`);
     } catch (error) {
@@ -103,6 +137,7 @@ export default function ArticleWriter({
           <MarkdownEditor
             editorRef={editorRef as React.RefObject<EditorCore>}
             onImageUpload={handleImageUpload}
+            onChange={handleEditorChange}
           />
         </div>
         <div className="flex justify-end gap-2">
