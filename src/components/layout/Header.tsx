@@ -16,10 +16,14 @@ const Header = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState<SearchArticle[]>([]);
   const [isSearchFocused, setIsSearchFocused] = useState(false);
+  const [isShuffling, setIsShuffling] = useState(false);
   const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
   const setLoggedIn = useAuthStore((state) => state.setLoggedIn);
 
   const handleShuffle = async () => {
+    if (isShuffling) return;
+
+    setIsShuffling(true);
     try {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/articles/random`
@@ -31,6 +35,8 @@ const Header = () => {
       router.push(`/article/${data.articleVersionId}`);
     } catch (error) {
       console.error("랜덤 문서 에러:", error);
+    } finally {
+      setIsShuffling(false);
     }
   };
 
@@ -149,10 +155,13 @@ const Header = () => {
             </div>
             <button
               onClick={handleShuffle}
-              className="ml-2 p-2 text-gray-300 hover:text-white transition-colors rounded-lg bg-slate-700 hover:bg-slate-600"
+              className="ml-2 p-2 text-gray-300 hover:text-white transition-colors rounded-lg bg-slate-700 hover:bg-slate-600 disabled:opacity-50 disabled:cursor-not-allowed"
               title="랜덤 문서"
+              disabled={isShuffling}
             >
-              <HiOutlineRefresh className="h-5 w-5" />
+              <HiOutlineRefresh
+                className={`h-5 w-5 ${isShuffling ? "animate-spin" : ""}`}
+              />
             </button>
           </div>
 
@@ -160,10 +169,13 @@ const Header = () => {
           <div className="lg:hidden flex items-center">
             <button
               onClick={handleShuffle}
-              className="p-2 text-gray-300 hover:text-white transition-colors rounded-lg bg-slate-700 hover:bg-slate-600 mr-2"
+              className="p-2 text-gray-300 hover:text-white transition-colors rounded-lg bg-slate-700 hover:bg-slate-600 mr-2 disabled:opacity-50 disabled:cursor-not-allowed"
               title="랜덤 문서"
+              disabled={isShuffling}
             >
-              <HiOutlineRefresh className="h-5 w-5" />
+              <HiOutlineRefresh
+                className={`h-5 w-5 ${isShuffling ? "animate-spin" : ""}`}
+              />
             </button>
             <button
               className="text-white"
