@@ -6,16 +6,33 @@ import { searchArticles } from "@/lib/api/searchArticles";
 import { useAuthStore } from "@/store/authStore";
 import { SearchArticle } from "@/types/SearchArticle";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useCallback, useState } from "react";
-import { HiOutlineMenu, HiOutlineX } from "react-icons/hi";
+import { HiOutlineMenu, HiOutlineRefresh, HiOutlineX } from "react-icons/hi";
 
 const Header = () => {
+  const router = useRouter();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState<SearchArticle[]>([]);
   const [isSearchFocused, setIsSearchFocused] = useState(false);
   const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
   const setLoggedIn = useAuthStore((state) => state.setLoggedIn);
+
+  const handleShuffle = async () => {
+    try {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/articles/random`
+      );
+      if (!response.ok) {
+        throw new Error("랜덤 문서를 가져오는데 실패했습니다.");
+      }
+      const data = await response.json();
+      router.push(`/article/${data.articleVersionId}`);
+    } catch (error) {
+      console.error("랜덤 문서 에러:", error);
+    }
+  };
 
   const handleSearch = useCallback(async (query: string) => {
     if (!query.trim()) {
@@ -130,26 +147,42 @@ const Header = () => {
                 </div>
               )}
             </div>
+            <button
+              onClick={handleShuffle}
+              className="ml-2 p-2 text-gray-300 hover:text-white transition-colors rounded-lg bg-slate-700 hover:bg-slate-600"
+              title="랜덤 문서"
+            >
+              <HiOutlineRefresh className="h-5 w-5" />
+            </button>
           </div>
 
           {/* 모바일/태블릿 메뉴 버튼 */}
-          <button
-            className="lg:hidden text-white"
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-          >
-            <div className="relative w-6 h-6">
-              <HiOutlineMenu
-                className={`absolute h-6 w-6 transition-all duration-300 ${
-                  isMenuOpen ? "opacity-0 rotate-90" : "opacity-100 rotate-0"
-                }`}
-              />
-              <HiOutlineX
-                className={`absolute h-6 w-6 transition-all duration-300 ${
-                  isMenuOpen ? "opacity-100 rotate-0" : "opacity-0 -rotate-90"
-                }`}
-              />
-            </div>
-          </button>
+          <div className="lg:hidden flex items-center">
+            <button
+              onClick={handleShuffle}
+              className="p-2 text-gray-300 hover:text-white transition-colors rounded-lg bg-slate-700 hover:bg-slate-600 mr-2"
+              title="랜덤 문서"
+            >
+              <HiOutlineRefresh className="h-5 w-5" />
+            </button>
+            <button
+              className="text-white"
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+            >
+              <div className="relative w-6 h-6">
+                <HiOutlineMenu
+                  className={`absolute h-6 w-6 transition-all duration-300 ${
+                    isMenuOpen ? "opacity-0 rotate-90" : "opacity-100 rotate-0"
+                  }`}
+                />
+                <HiOutlineX
+                  className={`absolute h-6 w-6 transition-all duration-300 ${
+                    isMenuOpen ? "opacity-100 rotate-0" : "opacity-0 -rotate-90"
+                  }`}
+                />
+              </div>
+            </button>
+          </div>
 
           {/* 데스크톱 메뉴 */}
           <nav className="hidden lg:flex items-center space-x-6">
