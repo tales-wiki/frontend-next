@@ -7,7 +7,7 @@ import { useAuthStore } from "@/store/authStore";
 import { SearchArticle } from "@/types/SearchArticle";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { HiOutlineMenu, HiOutlineRefresh, HiOutlineX } from "react-icons/hi";
 
 const Header = () => {
@@ -17,11 +17,22 @@ const Header = () => {
   const [searchResults, setSearchResults] = useState<SearchArticle[]>([]);
   const [isSearchFocused, setIsSearchFocused] = useState(false);
   const [isShuffling, setIsShuffling] = useState(false);
+  const [cooldown, setCooldown] = useState(0);
   const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
   const setLoggedIn = useAuthStore((state) => state.setLoggedIn);
 
+  useEffect(() => {
+    let timer: NodeJS.Timeout;
+    if (cooldown > 0) {
+      timer = setInterval(() => {
+        setCooldown((prev) => Math.max(0, prev - 1));
+      }, 1000);
+    }
+    return () => clearInterval(timer);
+  }, [cooldown]);
+
   const handleShuffle = async () => {
-    if (isShuffling) return;
+    if (isShuffling || cooldown > 0) return;
 
     setIsShuffling(true);
     try {
@@ -37,6 +48,7 @@ const Header = () => {
       console.error("랜덤 문서 에러:", error);
     } finally {
       setIsShuffling(false);
+      setCooldown(5);
     }
   };
 
@@ -155,13 +167,17 @@ const Header = () => {
             </div>
             <button
               onClick={handleShuffle}
-              className="ml-2 p-2 text-gray-300 hover:text-white transition-colors rounded-lg bg-slate-700 hover:bg-slate-600 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="ml-2 p-2 text-gray-300 hover:text-white transition-colors rounded-lg bg-slate-700 hover:bg-slate-600 disabled:opacity-50 disabled:cursor-not-allowed w-9 h-9 flex items-center justify-center"
               title="랜덤 문서"
-              disabled={isShuffling}
+              disabled={isShuffling || cooldown > 0}
             >
-              <HiOutlineRefresh
-                className={`h-5 w-5 ${isShuffling ? "animate-spin" : ""}`}
-              />
+              {cooldown > 0 ? (
+                <span className="text-base font-medium">{cooldown}</span>
+              ) : (
+                <HiOutlineRefresh
+                  className={`h-5 w-5 ${isShuffling ? "animate-spin" : ""}`}
+                />
+              )}
             </button>
           </div>
 
@@ -169,13 +185,17 @@ const Header = () => {
           <div className="lg:hidden flex items-center">
             <button
               onClick={handleShuffle}
-              className="p-2 text-gray-300 hover:text-white transition-colors rounded-lg bg-slate-700 hover:bg-slate-600 mr-2 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="p-2 text-gray-300 hover:text-white transition-colors rounded-lg bg-slate-700 hover:bg-slate-600 mr-2 disabled:opacity-50 disabled:cursor-not-allowed w-9 h-9 flex items-center justify-center"
               title="랜덤 문서"
-              disabled={isShuffling}
+              disabled={isShuffling || cooldown > 0}
             >
-              <HiOutlineRefresh
-                className={`h-5 w-5 ${isShuffling ? "animate-spin" : ""}`}
-              />
+              {cooldown > 0 ? (
+                <span className="text-base font-medium">{cooldown}</span>
+              ) : (
+                <HiOutlineRefresh
+                  className={`h-5 w-5 ${isShuffling ? "animate-spin" : ""}`}
+                />
+              )}
             </button>
             <button
               className="text-white"
