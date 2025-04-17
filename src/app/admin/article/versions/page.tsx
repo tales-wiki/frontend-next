@@ -6,7 +6,7 @@ type Props = {
 };
 
 async function getVersions(page: number = 0) {
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/admin/articles/versions?page=${page}`,
     {

@@ -21,7 +21,7 @@ import {
 import { formatDateTime3 } from "@/lib/utils/DateFormatter";
 import { ArticleVersion } from "@/types/article";
 import "@toast-ui/editor/dist/toastui-editor-viewer.css";
-import { Eye, EyeOff, Lock, Trash2, Unlock } from "lucide-react";
+import { Eye, EyeOff, Lock, MinusCircle, Trash2, Unlock } from "lucide-react";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
@@ -193,6 +193,32 @@ export default function ArticleVersionsTable({
     }
   };
 
+  const handleDeleteVersion = async (articleVersionId: number) => {
+    try {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/admin/articles/versions/${articleVersionId}`,
+        {
+          method: "DELETE",
+          credentials: "include",
+        }
+      );
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "게시글 버전 삭제에 실패했습니다.");
+      }
+
+      toast.success("게시글 버전이 성공적으로 삭제되었습니다.");
+      router.refresh();
+    } catch (error) {
+      if (error instanceof Error) {
+        toast.error(error.message);
+      } else {
+        toast.error("게시글 버전 삭제 중 오류가 발생했습니다.");
+      }
+    }
+  };
+
   return (
     <>
       <div className="border border-gray-200 shadow-sm">
@@ -310,11 +336,22 @@ export default function ArticleVersionsTable({
                       )}
                     </Button>
                     <Button
+                      variant="outline"
+                      size="sm"
+                      className="bg-purple-50 hover:bg-purple-100 text-purple-700 border-purple-200 p-1 h-6"
+                      onClick={() =>
+                        handleDeleteVersion(version.articleVersionId)
+                      }
+                      title="버전 삭제"
+                    >
+                      <MinusCircle className="w-4 h-4" />
+                    </Button>
+                    <Button
                       variant="destructive"
                       size="sm"
                       className="bg-red-400 hover:bg-red-500 text-white p-1 h-6"
                       onClick={() => handleDelete(version.articleId)}
-                      title="삭제"
+                      title="게시글 삭제"
                     >
                       <Trash2 className="w-4 h-4" />
                     </Button>
